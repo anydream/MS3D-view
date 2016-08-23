@@ -1,0 +1,52 @@
+// 110131 改 fvDiffuse, 效果就出来了
+// 110209 添加了伪HDR, 效果不错
+
+uniform float4 fvAmbient = { 0.66, 0.66, 0.66, 1.0 };
+uniform float4 fvSpecular = { 0.64, 0.64, 0.64, 1.0 };
+uniform float4 fvDiffuse = { 0.56, 0.56, 0.56, 1.0 };
+
+uniform sampler2D baseMap;
+uniform sampler2D bumpMap;
+uniform sampler2D specMap;
+
+//const float blurfactor = 12.5;//blur度，就是把多远处的像素取过来
+const float expfactor = 0.8;//曝光度
+//const float cdelp = 0.0009765625;//一个像素对应的float大小。我用的纹理是1024，自己去算
+const float sharpness = 1.4;//看代码。。。。
+
+float4 xposure(float4 cl, float e)
+{
+   return float4(((exp(expfactor) -  exp(expfactor-e)) * cl).rgb, 1);
+}
+
+float4 fp_main(
+	in float2 Texcoord :		TEXCOORD0,
+	in float3 ViewDirection :	TEXCOORD1,
+	in float3 LightDirection:	TEXCOORD2) : COLOR0
+{		
+	float3 fvLightDirection = normalize(LightDirection);
+	float3 fvNormal			= normalize((tex2D(bumpMap, Texcoord).rgb * 2.0f) - 1.0f);
+	
+	float3 fvReflection		= reflect(-fvLightDirection, fvNormal); //normalize(((2.0f * fvNormal) * (fNDotL)) - fvLightDirection); 
+	float3 fvViewDirection	= normalize(ViewDirection);
+	float  fRDotV			= max(0.0f, dot(fvReflection, fvViewDirection));
+
+	float4 fvBaseColor		= tex2D(baseMap, Texcoord);
+	float4 fvSpecColor		= tex2D(specMap, Texcoord);
+
+	float4 fvTotalAmbient	= fvAmbient * fvBaseColor; 
+	float4 fvTotalDiffuse	= fvDiffuse * dot(fvNormal, fvLightDirection) * fvBaseColor;
+	float4 fvTotalSpecular	= fvSpecular * pow(fRDotV, 20.0) * fvSpecColor;
+	
+	float4 finalColor = float4(saturate(fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular).rgb, fvBaseColor.a);
+	return finalColor;
+	/*
+	//float delp = blurfactor * cdelp;
+	float4 color = finalColor;// * 2.0  / 22.0;
+	float e = color.r * 0.3 + color.g * 0.59 + color.b * 0.11;
+	
+	return xposure(finalColor * sharpness + color*(1-sharpness),e);*/
+}
+
+
+

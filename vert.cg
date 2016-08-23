@@ -1,0 +1,78 @@
+// 110131 把转换为切线空间的计算改为矩阵乘法
+// 110201 13:32 第一次实现 GPU 骨骼动画 ^O^
+
+uniform float3 fvLightPosition = { 50, 50, -100 };
+uniform float4x4 matWorldView;
+uniform float4x4 matWVP;
+
+uniform float4x4 matBones[100];
+
+void vp_main(
+	in float3 Position :	POSITION,
+	in float3 Normal :		NORMAL,
+	in float3 Tangent :		TANGENT,
+	in float3 Binormal :	BINORMAL,
+	in float2 Texcoord :	TEXCOORD,
+	
+	in float4 BlendIndex :	BLENDINDICES,
+	in float4 BlendWeight :	BLENDWEIGHT,
+
+	out float4 oPosition :		POSITION0,
+	out float2 oTexcoord :		TEXCOORD0,
+	out float3 ViewDirection :	TEXCOORD1,
+	out float3 LightDirection :	TEXCOORD2)
+{
+	float4 pos = float4(Position, 1);
+	float4 norm = float4(Normal, 0);
+	float4 binorm = float4(Binormal, 0);
+	float4 tang = float4(Tangent, 0);
+
+    float4 blendPos = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 blendNorm = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 blendBinorm = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 blendTang = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	
+    int4 blendBone = int4(BlendIndex);
+	
+	for(int i = 0; i < 4; i++)
+    {
+        if(BlendWeight.x > 0.0f)
+        {
+            blendPos += mul(pos, matBones[blendBone.x]) * BlendWeight.x;
+			blendNorm += mul(norm, matBones[blendBone.x]) * BlendWeight.x;
+			blendBinorm += mul(binorm, matBones[blendBone.x]) * BlendWeight.x;
+			blendTang += mul(tang, matBones[blendBone.x]) * BlendWeight.x;
+
+			// 滚动
+            blendBone = blendBone.yzwx;
+            BlendWeight = BlendWeight.yzwx;
+        }
+		else break;
+    }
+	
+	pos = blendPos;
+	norm = blendNorm;
+	binorm = blendBinorm;
+	tang = blendTang;
+	
+	oPosition = mul(pos, matWVP);
+	oTexcoord = Texcoord;
+	
+	float3 fvObjectPosition = mul(pos, matWorldView).xyz;
+	
+	float3 fvViewDirection = -fvObjectPosition;
+	//float3 fvLightDirection = mul(float4(fvLightPosition, 1), matWorldView).xyz - fvObjectPosition;
+	float3 fvLightDirection = fvLightPosition - fvObjectPosition;
+
+	// 把三个 dot 转换为一个 矩阵乘法
+	float3 fvNormal = mul(norm, matWorldView).xyz;
+	float3 fvBinormal = mul(binorm, matWorldView).xyz;
+	float3 fvTangent = mul(tang, matWorldView).xyz;
+	
+	float3x3 rotation = float3x3(fvTangent, fvBinormal, fvNormal);
+	
+	ViewDirection = mul(rotation, fvViewDirection);
+	LightDirection = mul(rotation, fvLightDirection);
+}
+
+

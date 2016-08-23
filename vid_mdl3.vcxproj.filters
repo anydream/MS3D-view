@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="glew">
+      <UniqueIdentifier>{d9055464-0969-43a6-91ff-ad7c88203c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="渲染">
+      <UniqueIdentifier>{aadc3bbd-adeb-4ec5-8c21-8a3e921e7e18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="通用">
+      <UniqueIdentifier>{deb254aa-6ea9-451a-bfdc-1d6b50579963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="模型计算">
+      <UniqueIdentifier>{d9d22824-152a-4ed9-be0d-ece3997464ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="外壳">
+      <UniqueIdentifier>{0d7ac5b7-05cd-4aea-9c7b-dbdef0c5e385}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="着色程序">
+      <UniqueIdentifier>{74c02c4b-d11f-49e6-9e7d-4a734578131b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="glew\glew.c">
+      <Filter>glew</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vidarray.c">
+      <Filter>渲染</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vidbuffer.c">
+      <Filter>渲染</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viddebug.c">
+      <Filter>渲染</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vidparam.c">
+      <Filter>渲染</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vidprogram.c">
+      <Filter>渲染</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vidrendertar.c">
+      <Filter>渲染</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vidsystem.c">
+      <Filter>渲染</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vidtexture.c">
+      <Filter>渲染</Filter>
+    </ClCompile>
+    <ClCompile Include="src\factory.c">
+      <Filter>通用</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ut.c">
+      <Filter>通用</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math3D.c">
+      <Filter>模型计算</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mdlanimate.c">
+      <Filter>模型计算</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mdlcalc.c">
+      <Filter>模型计算</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mdlmesh.c">
+      <Filter>模型计算</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mdlmodel.c">
+      <Filter>模型计算</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mdlskeleton.c">
+      <Filter>模型计算</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mdltrack.c">
+      <Filter>模型计算</Filter>
+    </ClCompile>
+    <ClCompile Include="AppFramework.c">
+      <Filter>外壳</Filter>
+    </ClCompile>
+    <ClCompile Include="boot.c">
+      <Filter>外壳</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32AppHelper.c">
+      <Filter>外壳</Filter>
+    </ClCompile>
+    <ClCompile Include="shader\generic.c">
+      <Filter>着色程序</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c" />
+    <ClCompile Include="mdl_test.c" />
+    <ClCompile Include="ms3d.c" />
+    <ClCompile Include="ms3dconv.c" />
+    <ClCompile Include="Test.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="glew\gl\glew.h">
+      <Filter>glew</Filter>
+    </ClInclude>
+    <ClInclude Include="glew\gl\wglew.h">
+      <Filter>glew</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dds.h">
+      <Filter>渲染</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vid.h">
+      <Filter>渲染</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viddebug.h">
+      <Filter>渲染</Filter>
+    </ClInclude>
+    <ClInclude Include="src\factory.h">
+      <Filter>通用</Filter>
+    </ClInclude>
+    <ClInclude Include="src\refcount.h">
+      <Filter>通用</Filter>
+    </ClInclude>
+    <ClInclude Include="src\types.h">
+      <Filter>通用</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ut.h">
+      <Filter>通用</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math3D.h">
+      <Filter>模型计算</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mdlcalc.h">
+      <Filter>模型计算</Filter>
+    </ClInclude>
+    <ClInclude Include="AppFramework.h">
+      <Filter>外壳</Filter>
+    </ClInclude>
+    <ClInclude Include="boot.h">
+      <Filter>外壳</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32AppHelper.h">
+      <Filter>外壳</Filter>
+    </ClInclude>
+    <ClInclude Include="mdl_test.h" />
+    <ClInclude Include="ms3d.h" />
+    <ClInclude Include="ms3dconv.h" />
+  </ItemGroup>
+</Project>
